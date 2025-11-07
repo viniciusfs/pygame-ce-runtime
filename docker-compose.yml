@@ -1,0 +1,14 @@
+services:
+  runtime_builder:
+    image: python:3.12.8-bookworm
+    platform: linux/arm64
+    command:
+      - "/bin/bash"
+      - "-lc"
+      - "/local/build-runtime.sh 2>&1"
+    stdin_open: true
+    tty: true
+    volumes:
+      - type: bind
+        source: .
+        target: /local
