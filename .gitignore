@@ -1,2 +1,6 @@
 build/*
-example/MyGame/runtime/*
+**/runtime
+.mailmap
+.python-version
+*.log
+**/__pycache__
