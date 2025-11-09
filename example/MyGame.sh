@@ -54,7 +54,7 @@ export PYTHONHOME="${PYGAME_DIR}"
 export PYTHONPATH="${PYTHONHOME}/lib/python3.12"
 export PYTHONPYCACHEPREFIX="${GAMEDIR}/${RUNTIME}.cache"
 
-export SDL_VIDEODRIVER=mali # compatible with anbernic rg35xx-h
+export SDL_VIDEODRIVER=mali # compatible with knulli linux on anbernic rg35xx-h
 
 "${PYGAME_DIR}/bin/python" "${GAMEDIR}/${ENTRYPOINT}"
 
