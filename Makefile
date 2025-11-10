@@ -12,3 +12,4 @@ clean:
 	rm -rf build/*
 	find . -type d -name "__pycache__" | xargs rm -rf
 	find . -type f -name "*.log" | xargs rm
+	docker compose down
