@@ -44,7 +44,8 @@ runtime, example game and startup script, run:
 
     make build-package
 
-The output artifact is located at `build/MyGame.zip`.
+The output artifact is located at `build/MyGame.zip`. Unzip the artifact
+on PortMaster directory of your CFW of choice and you are ready to play!
 
 ## Customize the runtime
 
@@ -53,6 +54,15 @@ You can customize the runtime by adding the following files to the `build` folde
 * `pre-install.sh`: script to run before the runtime is built
 * `post-install.sh`: script to run after the runtime is built, right before it is packed into a SquashFS image
 * `requirements.txt`: additional Python dependencies to install on the runtime
+
+## Limitations
+
+I built this project for my personal use, and testing is limited to my access
+to different devices and CFW. The current runtime uses Python 3.12.8 and
+pygame-ce 2.5.6, and was successfully tested on an Anbernic RG35XX-H device
+running Knulli Gladiator.
+
+Donations to acquire SD cards and other devices are welcome.
 
 [1]: https://portmaster.games/index.html
 [2]: https://github.com/pygame-community/pygame-ce
