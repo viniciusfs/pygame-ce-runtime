@@ -1,12 +1,24 @@
+include build-config
+
+RUNTIME := pygame-ce_$(PYGAME_VERSION)_python_$(PYTHON_VERSION)
+SQUASHFS := build/$(RUNTIME).squashfs
+
 .PHONY: build-runtime build-package clean
 
 build-runtime:
 	docker compose up
 
 build-package:
-	cp build/pygame-ce_2.5.6_python_3.12.8.squashfs example/MyGame/runtime/pygame-ce_2.5.6_python_3.12.8.squashfs
-	cd example && zip -r ../build/MyGame.zip MyGame MyGame.sh && cd -
-	rm example/MyGame/runtime/pygame-ce_2.5.6_python_3.12.8.squashfs
+	@set -e; \
+	if [ ! -f "$(SQUASHFS)" ]; then \
+	  echo "error: $(SQUASHFS) not found, run 'make build-runtime' first" >&2; \
+	  exit 1; \
+	fi; \
+	dest=example/MyGame/runtime/$(RUNTIME).squashfs; \
+	trap 'rm -f "$$dest"' EXIT; \
+	mkdir -p example/MyGame/runtime; \
+	cp "$(SQUASHFS)" "$$dest"; \
+	(cd example && zip -r ../build/MyGame.zip MyGame MyGame.sh)
 
 clean:
 	rm -rf build/*
