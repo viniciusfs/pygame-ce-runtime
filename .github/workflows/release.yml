@@ -1,0 +1,52 @@
+name: Build and release runtime
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    # Native arm64 runner (free for public repos) - no QEMU emulation needed.
+    runs-on: ubuntu-24.04-arm
+    # Building pygame-ce from source; native arm64 is far faster than emulation.
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Load runtime versions
+        id: cfg
+        # build-config is KEY=VALUE, the exact format $GITHUB_OUTPUT expects.
+        run: cat build-config >> "$GITHUB_OUTPUT"
+
+      - name: Build runtime
+        run: docker compose up --abort-on-container-exit --exit-code-from runtime_builder
+
+      - name: Build package
+        run: make build-package
+
+      - name: List artifacts
+        run: ls -lh build/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pygame-ce-runtime
+          path: |
+            build/pygame-ce_${{ steps.cfg.outputs.PYGAME_VERSION }}_python_${{ steps.cfg.outputs.PYTHON_VERSION }}.squashfs
+            build/MyGame.zip
+          if-no-files-found: error
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            build/pygame-ce_${{ steps.cfg.outputs.PYGAME_VERSION }}_python_${{ steps.cfg.outputs.PYTHON_VERSION }}.squashfs
+            build/MyGame.zip
