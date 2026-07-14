@@ -41,5 +41,6 @@ if [[ -f /local/build/post-install.sh ]]; then
 fi
 
 # create squashfs from runtime
+mkdir -p /local/build
 mksquashfs /runtime /pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs -comp xz -b 1M
 mv /pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs /local/build/pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs
