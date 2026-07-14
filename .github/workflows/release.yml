@@ -27,6 +27,12 @@ jobs:
       - name: Build runtime
         run: docker compose up --abort-on-container-exit --exit-code-from runtime_builder
 
+      - name: Reclaim build dir ownership
+        # The container runs as root and writes build/ via the bind mount,
+        # so the files come back owned by root. Hand them back to the runner
+        # user so the packaging step can write into build/.
+        run: sudo chown -R "$(id -u):$(id -g)" build
+
       - name: Build package
         run: make build-package
 
