@@ -40,7 +40,17 @@ if [[ -f /local/build/post-install.sh ]]; then
   bash /local/build/post-install.sh
 fi
 
-# create squashfs from runtime
+# create one squashfs image per compression listed in COMP.
+# xz is smallest; gzip is more compatible with limited device kernels.
 mkdir -p /local/build
-mksquashfs /runtime /pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs -comp xz -b 1M
-mv /pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs /local/build/pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}.squashfs
+COMP="${COMP:-xz}"
+for comp in $COMP; do
+  # keep the historical xz image un-suffixed for backward compatibility
+  suffix=""
+  if [[ "$comp" != "xz" ]]; then
+    suffix="_${comp}"
+  fi
+  name="pygame-ce_${PYGAME_VERSION}_python_${PYTHON_VERSION}${suffix}.squashfs"
+  mksquashfs /runtime "/${name}" -comp "${comp}" -b 1M -noappend
+  mv "/${name}" "/local/build/${name}"
+done
