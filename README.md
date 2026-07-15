@@ -7,6 +7,22 @@ The runtime is a portable Python virtual environment with all required
 dependencies to run pygame-ce games packed as a SquashFS image. You can
 distribute the runtime together with your game code as a single package.
 
+## Download a prebuilt runtime
+
+If you don't want to build the runtime yourself, prebuilt images are
+published on the [releases page][3]. Each release ships two SquashFS
+variants:
+
+* `pygame-ce_<PYGAME_VERSION>_python_<PYTHON_VERSION>.squashfs` — compressed
+  with **xz** (smaller). Use this if your device kernel supports it.
+* `pygame-ce_<PYGAME_VERSION>_python_<PYTHON_VERSION>_gzip.squashfs` —
+  compressed with **gzip**. Use this if mounting the xz image fails with a
+  `wrong fs type / bad superblock` error, which usually means the kernel
+  lacks xz SquashFS support.
+
+The `MyGame.zip` package on each release bundles the xz runtime, the example
+game and the PortMaster startup script.
+
 ## Requeriments
 
 * Docker
@@ -23,7 +39,12 @@ operational system dependencies required to run pygame-ce, create a Python
 virtual environment, install pygame-ce and pack the runtime into a SquashFS
 image.
 
-The output artifact is located at `build/pygame-ce_<PYGAME_VERSION>_python_<PYTHON_VERSION>.squashfs`.
+The output artifacts are located in the `build` folder. One SquashFS image
+is produced per compression listed in the `COMP` variable of
+[`build-config`](build-config) (defaults to `xz gzip`); the xz image keeps
+the un-suffixed name and other compressions get a `_<comp>` suffix. See
+[Download a prebuilt runtime](#download-a-prebuilt-runtime) for when to use
+each one.
 
 ## Using the runtime
 
@@ -66,3 +87,4 @@ Donations to acquire SD cards and other devices are welcome.
 
 [1]: https://portmaster.games/index.html
 [2]: https://github.com/pygame-community/pygame-ce
+[3]: https://github.com/viniciusfs/pygame-ce-runtime/releases
