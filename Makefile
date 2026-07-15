@@ -6,7 +6,7 @@ SQUASHFS := build/$(RUNTIME).squashfs
 .PHONY: build-runtime build-package clean
 
 build-runtime:
-	docker compose up
+	docker compose --env-file build-config up
 
 build-package:
 	@set -e; \

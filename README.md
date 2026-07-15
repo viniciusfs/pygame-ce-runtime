@@ -46,6 +46,18 @@ the un-suffixed name and other compressions get a `_<comp>` suffix. See
 [Download a prebuilt runtime](#download-a-prebuilt-runtime) for when to use
 each one.
 
+### Choosing the base image
+
+The Docker base image is set by the `BASE_IMAGE` variable in `build-config`.
+It must be an official `python:<PYTHON_VERSION>-*` image, since the build
+reuses the prebuilt Python it ships. The default is
+`python:3.12.8-bookworm` (GLIBC 2.36). Devices whose kernel/libc are older
+(for example MinUI, GLIBC 2.33) may need a runtime built against an older
+GLIBC; switching to `python:3.12.8-bullseye` (GLIBC 2.31) produces a
+runtime that runs on both older and newer systems:
+
+    BASE_IMAGE=python:3.12.8-bullseye
+
 ## Using the runtime
 
 The runtime must be shipped together with your game code. You will need a

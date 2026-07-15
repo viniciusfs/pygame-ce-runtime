@@ -25,7 +25,7 @@ jobs:
         run: cat build-config >> "$GITHUB_OUTPUT"
 
       - name: Build runtime
-        run: docker compose up --abort-on-container-exit --exit-code-from runtime_builder
+        run: docker compose --env-file build-config up --abort-on-container-exit --exit-code-from runtime_builder
 
       - name: Reclaim build dir ownership
         # The container runs as root and writes build/ via the bind mount,
