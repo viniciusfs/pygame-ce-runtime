@@ -83,16 +83,21 @@ on PortMaster directory of your CFW of choice and you are ready to play!
 
 ## Customize the runtime
 
-You can customize the runtime by adding the following files to the `custom`
-folder:
+You can customize the runtime by adding any of the following files to the
+`custom` folder (already present in the repository):
 
 * `pre-install.sh`: script to run before the runtime is built
 * `post-install.sh`: script to run after the runtime is built, right before it is packed into a SquashFS image
 * `requirements.txt`: additional Python dependencies to install on the runtime
 
+For example, to bundle an extra Python dependency into the runtime:
+
+    echo "requests==2.32.3" >> custom/requirements.txt
+    make build-runtime
+
 These files live in `custom/` (not `build/`) on purpose: `build/` only holds
 generated artifacts and is wiped by `make clean`, while your customization
-files in `custom/` are git-ignored and left untouched.
+files in `custom/` are git-ignored and left untouched between builds.
 
 ## Limitations
 
