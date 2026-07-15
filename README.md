@@ -51,12 +51,13 @@ each one.
 The Docker base image is set by the `BASE_IMAGE` variable in `build-config`.
 It must be an official `python:<PYTHON_VERSION>-*` image, since the build
 reuses the prebuilt Python it ships. The default is
-`python:3.12.8-bookworm` (GLIBC 2.36). Devices whose kernel/libc are older
-(for example MinUI, GLIBC 2.33) may need a runtime built against an older
-GLIBC; switching to `python:3.12.8-bullseye` (GLIBC 2.31) produces a
-runtime that runs on both older and newer systems:
+`python:3.12.8-bullseye` (GLIBC 2.31), chosen because a runtime built
+against an older GLIBC also runs on newer systems — this single image works
+both on devices with an old libc (for example MinUI, GLIBC 2.33) and on
+newer CFWs such as Knulli. If you specifically want to build against a newer
+base you can override it:
 
-    BASE_IMAGE=python:3.12.8-bullseye
+    BASE_IMAGE=python:3.12.8-bookworm
 
 ## Using the runtime
 
@@ -82,11 +83,16 @@ on PortMaster directory of your CFW of choice and you are ready to play!
 
 ## Customize the runtime
 
-You can customize the runtime by adding the following files to the `build` folder:
+You can customize the runtime by adding the following files to the `custom`
+folder:
 
 * `pre-install.sh`: script to run before the runtime is built
 * `post-install.sh`: script to run after the runtime is built, right before it is packed into a SquashFS image
 * `requirements.txt`: additional Python dependencies to install on the runtime
+
+These files live in `custom/` (not `build/`) on purpose: `build/` only holds
+generated artifacts and is wiped by `make clean`, while your customization
+files in `custom/` are git-ignored and left untouched.
 
 ## Limitations
 

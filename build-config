@@ -1,4 +1,4 @@
 PYTHON_VERSION=3.12.8
 PYGAME_VERSION=2.5.6
 COMP=xz gzip
-BASE_IMAGE=python:3.12.8-bookworm
+BASE_IMAGE=python:3.12.8-bullseye

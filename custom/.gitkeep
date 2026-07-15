@@ -1,0 +1,6 @@
+# Drop your build customization files in this folder:
+#   pre-install.sh   - runs before the runtime is built
+#   requirements.txt - extra Python dependencies installed into the runtime
+#   post-install.sh  - runs after the runtime is built, before it is packed
+#
+# Files here are git-ignored and are NOT removed by `make clean`.

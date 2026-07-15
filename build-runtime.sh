@@ -13,8 +13,8 @@ apt update && apt install -y build-essential git rsync squashfs-tools \
   libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
 # run pre-install script
-if [[ -f /local/build/pre-install.sh ]]; then
-  bash /local/build/pre-install.sh
+if [[ -f /local/custom/pre-install.sh ]]; then
+  bash /local/custom/pre-install.sh
 fi
 
 # create runtime
@@ -24,8 +24,8 @@ git clone --branch ${PYGAME_VERSION} https://github.com/pygame-community/pygame-
 cd pygame-ce && python -m pip install .
 
 # install additional requirements
-if [[ -f /local/build/requirements.txt ]]; then
-  python -m pip install -r /local/build/requirements.txt
+if [[ -f /local/custom/requirements.txt ]]; then
+  python -m pip install -r /local/custom/requirements.txt
 fi
 
 deactivate
@@ -36,8 +36,8 @@ rsync -av /usr/local/lib/python${PY_VER}/ /runtime/lib/python${PY_VER}/
 find /runtime -name "__pycache__" -type d -exec rm -rf {} +
 
 # run post-install script
-if [[ -f /local/build/post-install.sh ]]; then
-  bash /local/build/post-install.sh
+if [[ -f /local/custom/post-install.sh ]]; then
+  bash /local/custom/post-install.sh
 fi
 
 # create one squashfs image per compression listed in COMP.

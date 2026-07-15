@@ -1,4 +1,6 @@
 build/*
+custom/*
+!custom/.gitkeep
 **/runtime
 .mailmap
 .python-version
